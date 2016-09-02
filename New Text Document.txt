@@ -1,0 +1,22 @@
+public function main()
+                {
+                                $content = $this->content;
+                                $this->output('<div class="qa-main'.(@$this->content['hidden'] ? ' qa-main-hidden' : '').'">');
+                                $this->widgets('main', 'top');
+                                
+                                
+                                // This hides the title for specific pages
+                                if ($this->template=='ask'){
+                                                
+                                } else {
+                                                $this->page_title_error();
+                                }
+                                                                
+                                $this->widgets('main', 'high');
+                                $this->main_parts($content);
+                                $this->widgets('main', 'low');
+                                $this->page_links();
+                                $this->suggest_next();
+                                $this->widgets('main', 'bottom');
+                                $this->output('</div> <!-- END qa-main -->', '');
+                }
