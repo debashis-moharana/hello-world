@@ -124,16 +124,24 @@ class qa_html_theme extends qa_html_theme_base
 		$this->output('<script type="text/javascript" src = "'.$this->rooturl.'js/jquery-2.2.4.js"></script>');
 		$this->output('<script type="text/javascript" src = "'.$this->rooturl.'js/bootstrap.js"></script>');
 		$this->output('<script type="text/javascript" src = "'.$this->rooturl.'js/script.js"></script>');
+		
+		$this->output('<script type="text/javascript" src = "'.$this->rooturl.'js/angular.min.js"></script>');
+		$this->output('<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/0.9.2/trix.js"></script>');
+		$this->output('<script type="text/javascript" src = "'.$this->rooturl.'js/angular-trix.min.js"></script>');		
+		$this->output('<script type="text/javascript" src = "'.$this->rooturl.'js/app.js"></script>');
+		
+		
 	}
 	public function head_css()
 	{
 		$this->output('<link rel="stylesheet" href="'.$this->rooturl.$this->css_name().'"/>');
 		$this->output('<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600" rel="stylesheet" type="text/css"/>');
-		$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.'css/bootstrap.css"/>');
+		$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.'css/bootstrap.css"/>');		
 		
-		$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.'css/style.css"/>');
-		$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.'css/theme.css"/>');
 		$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.'css/responsive.css"/>');
+		$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.'css/style.css"/>');
+		$this->output('<link rel="stylesheet" type="text/css" href="'.$this->rooturl.'css/theme-custom.css"/>');
+		
 		
 		if (!empty($this->content['notices'])) {
 			$this->output(
@@ -160,7 +168,7 @@ class qa_html_theme extends qa_html_theme_base
 	}
 	public function body()
 	{
-		$this->output('<body');
+		$this->output('<body ');
 		$this->body_tags();
 		$this->output('>');
 		$this->body_script();
@@ -334,61 +342,26 @@ class qa_html_theme extends qa_html_theme_base
 	{
 		$this->body_prefix();
 		$this->notices();
-		$this->output('<div class="container"><div class="row"><div class="col-xs-9">', '');
+		$this->output('<div class="container">', '');
 		$this->widgets('full', 'top');
 		$this->header();
-		$this->widgets('full', 'high');			
+		$this->widgets('full', 'high');
+		$this->output('<div class="row page-content">');
 		$this->main();
-		$this->output('</div>', '');
-		$this->output('<div class="col-xs-3 side-bar">', '');
+		
+		
 		
 		/*  Code for the "How to Ask?" side panel in the ASK page  */
 		if($this->template == 'ask') {
-			
-			$this->output('<div class= "col-sm-12 side-bar hidden-xs ">
-				<div class="heading">how to ask?</div>
-				<div class="content">
-					
-					<ul class = "category-list ask-page">
-						<li class="border"> 
-							Want to ask some relevent questions in openstack community. Description text comes here.
-						</li>
-						<li class="border">
-							<div class="sub-title">help question 1?</div>
-							Description text comes here.
-						</li>
-						<li class="border"> 
-							<div class="sub-title">help question 2?</div>
-							Description text comes here.
-						</li>
-						<li class="border" > 
-							<div class="sub-title">help question 3?</div>
-							Description text comes here.
-						</li>
-						<li> 
-							<div class="sub-title">help question 4?</div>
-							Description text comes here.
-						</li>
-					</ul>
-				</div>
-				<div class="content border">
-					<p>
-						Let us know if you have suggestions on other community mailing lists that should be made seachable here.
-					</p>
-					<p>
-						For the corporate mailings lists, visit <a href="nimeyo.com">nimeyo.com</a> or send a note <a href="#">here</a>.
-					</p>
-				</div>
-			</div>
-
-			');
+			$this->output('<div class="col-sm-5 side-bar hidden-xs">', '');
+			$this->ask_sidepanel();			
 		} else {
 			
 			$this->sidepanel();
 		}
 		
 		
-		
+		$this->output('</div>', '');
 		$this->widgets('full', 'low');
 		
 		$this->widgets('full', 'bottom');
@@ -489,16 +462,28 @@ class qa_html_theme extends qa_html_theme_base
 	public function main()
 	{
 		$content = $this->content;
-		$this->output('<div class="qa-main'.(@$this->content['hidden'] ? ' qa-main-hidden' : '').'">');
+		
 		$this->widgets('main', 'top');
-		$this->page_title_error();
-		$this->widgets('main', 'high');
-		$this->main_parts($content);
+		
+		
+		// This hides the title for specific pages
+		if ($this->template=='ask'){
+			$this->ask_main_parts();
+			
+		} else {
+			$this->page_title_error();
+			$this->widgets('main', 'high');
+			$this->main_parts($content);
+		}
+				
+		
+		
+		
 		$this->widgets('main', 'low');
 		$this->page_links();
 		$this->suggest_next();
 		$this->widgets('main', 'bottom');
-		$this->output('</div> <!-- END qa-main -->', '');
+		
 	}
 	
 	
@@ -553,4 +538,113 @@ class qa_html_theme extends qa_html_theme_base
 		qa_html_theme_base::footer();
 		$this->output('</div> <!-- END footer-bottom-group -->', '');*/
 	}
+	
+	public function ask_main_parts()
+	{
+		$this->output('			
+			
+				<div class= "col-sm-7 col-xs-12">
+					<div class="form-group">
+						<label>Your Question in one sentence:</label>
+						<input type="text" class="form-control" placeholder="Type your question here...">
+					</div>
+					<div class="form-group">
+						<label>Category:</label>
+						<select class="form-control">
+							<option>Select</option>
+							<option>sample option 1</option>
+							<option>option 2</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>More information for the question:</label>
+						<trix-editor angular-trix ng-model="quesDetails">
+						</trix-editor>
+					</div>
+					<div class="form-group">
+						<label>Preview:</label>
+						<div class = "preview" ng-bind="quesDetails">
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Tags:</label>
+						<input type="text" class="form-control" placeholder="Type your tags here...">
+						<small><i>
+							Use hyphens to combine words.
+							</i></small>
+					</div>
+					<hr/>
+					<div class="form-group form-inline browse-file">
+						<label class="visible-xs">Attach files:</label>
+						<input type="file" class="form-control file-input" style="display:none;">
+						<button class=" btn-green btn  hidden-xs" type="button">Attach files</button>
+						&nbsp;
+						<div class="input-group">
+							<input type="input" class="form-control text-input" disabled="true">
+							<div class="input-group-btn">
+								<button class="btn btn-default btn-gray browse-btn" type="button">Browse</button>
+							</div>
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group">
+						<input id="notify" type="checkbox">
+						<label for="notify" style="display:flex;"><span><span></span></span>Email me if my question is answered or commented on</label>
+					</div>
+					<hr/>
+					<div class="form-group centered ">
+						<div class="robot-box">
+							<input id="robot" type="checkbox">
+							<label for="robot"><span><span></span></span>I am not a Robot</label>
+						</div>
+					</div>
+					<hr/>
+					<div class="form-group centered">
+						<button class="btn btn-default btn-green" type="button">Post your question</button>
+					</div>
+				</div>
+	
+
+		');
+	}
+	
+	public function ask_sidepanel(){
+	$this->output('
+				<div class="heading">how to ask?</div>
+				<div class="content">
+					
+					<ul class = "category-list ask-page">
+						<li class="border"> 
+							Want to ask some relevent questions in openstack community. Description text comes here.
+						</li>
+						<li class="border">
+							<div class="sub-title">help question 1?</div>
+							Description text comes here.
+						</li>
+						<li class="border"> 
+							<div class="sub-title">help question 2?</div>
+							Description text comes here.
+						</li>
+						<li class="border" > 
+							<div class="sub-title">help question 3?</div>
+							Description text comes here.
+						</li>
+						<li> 
+							<div class="sub-title">help question 4?</div>
+							Description text comes here.
+						</li>
+					</ul>
+				</div>
+				<div class="content border">
+					<p>
+						Let us know if you have suggestions on other community mailing lists that should be made seachable here.
+					</p>
+					<p>
+						For the corporate mailings lists, visit <a href="nimeyo.com">nimeyo.com</a> or send a note <a href="#">here</a>.
+					</p>
+				</div>
+			</div>
+
+			');
+		}
 }
