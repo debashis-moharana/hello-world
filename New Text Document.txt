@@ -1,22 +1,88 @@
-public function main()
-                {
-                                $content = $this->content;
-                                $this->output('<div class="qa-main'.(@$this->content['hidden'] ? ' qa-main-hidden' : '').'">');
-                                $this->widgets('main', 'top');
+$this->output('<div class="row">');
+                                for( $i = 0; $i < sizeof($content['ranking']['items']); $i++ ){
                                 
+                                // Variables 
+                                $user_name = $content['ranking']['items'][$i]['raw']['handle'];
+                                $email_id = $content['ranking']['items'][$i]['raw']['email'];
+                                $score = $content['ranking']['items'][$i]['raw']['points'];
+                                $rank = $i+1;
                                 
-                                // This hides the title for specific pages
-                                if ($this->template=='ask'){
-                                                
-                                } else {
-                                                $this->page_title_error();
+                                                $this->output('
+                                                                                                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                                                                                                                <div class="user-box">
+                                                                                                                                                <div class="header">
+                                                                                                                                                                <div class ="row">
+                                                                                                                                                                                <div class="pic col-lg-4 col-xs-5">
+                                                                                                                                                                                                <a href="userdetails.html"><img src="pic');echo $rank; 
+                                                                                                                                                                                                
+                                                                                                                                                                                                $this->output('.jpg " class=""></a>
+                                                                                                                                                                                </div>
+                                                                                                                                                                                <div class="name col-lg-8 col-xs-7">
+                                                                                                                                                                                                <div class="one">');
+                                                                                                                                                                                                                
+                                                                                                                                                                                                                echo $user_name;
+                                                                                                                                                                                                                
+                                                                                                                                                                                                $this->output('</div>
+                                                                                                                                                                                                <div class="two">
+                                                                                                                                                                                                                chicago, IL
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="three">');                                                                                                                                                                                                
+                                                                                                                                                                                                                echo $email_id;
+                                                                                                                                                                                                $this->output(' 
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                </div>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="body">
+                                                                                                                                                                <div class="row stats">
+                                                                                                                                                                                <div class="col-xs-3 ">
+                                                                                                                                                                                                <div class="text">
+                                                                                                                                                                                                                points
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="number">');                                                                                                                                                                                         
+                                                                                                                                                                                                                echo $score;
+                                                                                                                                                                                                $this->output(' 
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                                <div class="col-xs-3 border ">
+                                                                                                                                                                                                <div class="text">
+                                                                                                                                                                                                                rank
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="number">');                                                                                                                                                                                         
+                                                                                                                                                                                                                echo $rank;
+                                                                                                                                                                                                $this->output('                </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                                <div class="col-xs-3 border">
+                                                                                                                                                                                                <div class="text">
+                                                                                                                                                                                                                silver
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="number">
+                                                                                                                                                                                                                4
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                                <div class="col-xs-3 border">
+                                                                                                                                                                                                <div class="text">
+                                                                                                                                                                                                                bronze
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="number">
+                                                                                                                                                                                                                1
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                </div>
+                                                                                                                                                                <div class="tags">
+                                                                                                                                                                                <div class="title">
+                                                                                                                                                                                                tags
+                                                                                                                                                                                </div>
+                                                                                                                                                                                <div class="list">
+                                                                                                                                                                                                devstack, linux, metadata, -dev, metadata, configuration, migration
+                                                                                                                                                                                </div>
+                                                                                                                                                                </div>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="footer">
+                                                                                                                                                                20 mins ago
+                                                                                                                                                </div>
+                                                                                                                                </div>
+                                                                                                                </div>
+                                ');
                                 }
-                                                                
-                                $this->widgets('main', 'high');
-                                $this->main_parts($content);
-                                $this->widgets('main', 'low');
-                                $this->page_links();
-                                $this->suggest_next();
-                                $this->widgets('main', 'bottom');
-                                $this->output('</div> <!-- END qa-main -->', '');
-                }
+                                $this->output('</div>');
