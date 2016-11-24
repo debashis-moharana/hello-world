@@ -1,0 +1,35 @@
+Nimeyo Theme Setup Documentation
+---------------------------------
+
+#1) The file nimeyo_theme_1.0.zip has two folders
+		1) Theme
+			-> Nimeyo - This is the theme file. 
+				a) Copy this 'Nimeyo' folder and place it under 'qa-theme' folder in q2a 
+				b) Change the theme to Nimeyo from Admin -> General tab
+				c) Goto Admin->pages 
+					i) Create a page 'Dashboard' and save.
+					ii) Click on edit 'Dashboard' page. Change the slug name to 'dashboard' and save the page.
+			
+		2) Plugins
+			-> nimeyo-custom 
+				a) This is a custom plugin to serve the functionalities in Nimeyo Theme
+				b) This plugin works only with Nimeyo Theme. So disable the plugin if anyother theme is used
+				
+			-> q2a-badges-master
+				a) This is an external plugin used for badges functionality
+				
+			-> q2a-markdown-editor-master
+				a) This is an external plugin for editor
+			
+			Place the above three plugins in qa-plugins folder in q2a and enable the plugins from Admin->plugins tab
+		
+
+#2) Navigate to Admin->Layout, enable the following sidepanel widget
+		1) Tag Cloud - Side panel - Top
+		2) Nimeyo Activity Count - Side panel - Top
+		3) Nimeyo Category Filter - Side panel - Top
+		
+
+	
+	
+		
